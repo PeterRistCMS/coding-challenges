@@ -21,6 +21,10 @@ public class ArticleMapper {
     public ArticleDto map(Article article){
         ArticleDto payload = new ArticleDto();
 
+        if (article == null) {
+            return payload;
+        }
+
         payload.setAuthor(article.getAuthor());
         payload.setDescription(article.getDescription());
         payload.setId(article.getId());
