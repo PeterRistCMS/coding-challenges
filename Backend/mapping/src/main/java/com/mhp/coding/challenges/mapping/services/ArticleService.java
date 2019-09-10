@@ -5,7 +5,9 @@ import com.mhp.coding.challenges.mapping.models.db.Article;
 import com.mhp.coding.challenges.mapping.models.dto.ArticleDto;
 import com.mhp.coding.challenges.mapping.repositories.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +27,24 @@ public class ArticleService {
 
     public List<ArticleDto> list() {
         final List<Article> articles = repository.all();
-        //TODO
-        return new ArrayList<>();
+        ArrayList<ArticleDto> payload = new ArrayList<>();
+
+        for (Article article: articles){
+            payload.add(mapper.map(article));
+        }
+        return payload;
     }
 
     public ArticleDto articleForId(Long id) {
         final Article article = repository.findBy(id);
-        //TODO
-        return new ArticleDto();
+
+        if(article.getId() == null){
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
+        return mapper.map(article);
     }
 
     public ArticleDto create(ArticleDto articleDto) {

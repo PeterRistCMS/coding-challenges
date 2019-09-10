@@ -19,8 +19,8 @@ public class InquiryService{
     public void create(final Inquiry inquiry) {
         LOG.info("User sent inquiry: {}", inquiry);
 
-        InquiryEvent customSpringEvent = new InquiryEvent(this, inquiry);
-        applicationEventPublisher.publishEvent(customSpringEvent);
+        InquiryEvent inquiryEvent = new InquiryEvent(this, inquiry);
+        applicationEventPublisher.publishEvent(inquiryEvent);
     }
 
 }
